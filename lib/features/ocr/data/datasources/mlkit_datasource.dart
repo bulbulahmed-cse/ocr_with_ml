@@ -10,10 +10,10 @@ enum RecognitionScript {
 /// Data source for ML Kit text recognition operations
 class MlKitDataSource {
   TextRecognizer? _textRecognizer;
-  RecognitionScript _currentScript = RecognitionScript.latin;
+  RecognitionScript _currentScript = RecognitionScript.devanagari;
 
   MlKitDataSource({RecognitionScript? script}) {
-    _currentScript = script ?? RecognitionScript.latin;
+    _currentScript = script ?? RecognitionScript.devanagari;
     _initializeRecognizer();
   }
 
@@ -22,14 +22,16 @@ class MlKitDataSource {
     // For Bengali/Bangla, use default recognizer (without script specification)
     // which can detect multiple languages including Bengali
     // For Latin, explicitly use latin script for better performance
-    if (_currentScript == RecognitionScript.devanagari) {
+    // if (_currentScript == RecognitionScript.devanagari) {
       // Use default recognizer for Bengali - it can auto-detect Bengali text
-      _textRecognizer = TextRecognizer();
-    } else {
       _textRecognizer = TextRecognizer(
-        script: TextRecognitionScript.latin,
+        script: TextRecognitionScript.devanagiri
       );
-    }
+    // } else {
+    //   _textRecognizer = TextRecognizer(
+    //     script: TextRecognitionScript.latin,
+    //   );
+    // }
   }
 
   /// Change recognition script

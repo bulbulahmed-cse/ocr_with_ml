@@ -42,32 +42,32 @@ class OcrScreen extends ConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           // Script selection dropdown
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: DropdownButton<RecognitionScript>(
-              value: ocrState.recognitionScript,
-              underline: const SizedBox(),
-              icon: const Icon(Icons.language, color: Colors.white),
-              items: const [
-                DropdownMenuItem(
-                  value: RecognitionScript.latin,
-                  child: Text('Latin', style: TextStyle(color: Colors.black)),
-                ),
-                DropdownMenuItem(
-                  value: RecognitionScript.devanagari,
-                  child: Text('বাংলা (Bengali)', style: TextStyle(color: Colors.black)),
-                ),
-              ],
-              onChanged: (script) {
-                if (script != null) {
-                  // Update script provider
-                  ref.read(recognitionScriptProvider.notifier).state = script;
-                  // Update OCR state and re-process
-                  ocrNotifier.changeScript(script);
-                }
-              },
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //   child: DropdownButton<RecognitionScript>(
+          //     value: ocrState.recognitionScript,
+          //     underline: const SizedBox(),
+          //     icon: const Icon(Icons.language, color: Colors.white),
+          //     items: const [
+          //       DropdownMenuItem(
+          //         value: RecognitionScript.latin,
+          //         child: Text('Latin', style: TextStyle(color: Colors.black)),
+          //       ),
+          //       DropdownMenuItem(
+          //         value: RecognitionScript.devanagari,
+          //         child: Text('বাংলা (Bengali)', style: TextStyle(color: Colors.black)),
+          //       ),
+          //     ],
+          //     onChanged: (script) {
+          //       if (script != null) {
+          //         // Update script provider
+          //         ref.read(recognitionScriptProvider.notifier).state = script;
+          //         // Update OCR state and re-process
+          //         ocrNotifier.changeScript(script);
+          //       }
+          //     },
+          //   ),
+          // ),
           if (ocrState.hasTextBlocks) ...[
             IconButton(
               icon: const Icon(Icons.picture_as_pdf),

@@ -23,7 +23,7 @@ class OcrState {
     this.isProcessing = false,
     this.scale = 1.0,
     this.errorMessage,
-    this.recognitionScript = RecognitionScript.latin,
+    this.recognitionScript = RecognitionScript.devanagari,
   });
 
   OcrState copyWith({

@@ -42,3 +42,7 @@ android {
 flutter {
     source = "../.."
 }
+dependencies {
+    // Add language package you need to use
+    implementation ("com.google.mlkit:text-recognition-devanagari:16.0.0")
+}
