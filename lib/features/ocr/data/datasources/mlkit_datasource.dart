@@ -76,7 +76,7 @@ class MlKitDataSource {
 
     final match = regex.firstMatch(fullText);
 
-    print("Invoice");
+    print("Invoi ce");
     if (match != null) {
       print("Invoice No: ${match.group(2)}");
       return match.group(2); // Only number

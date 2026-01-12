@@ -131,89 +131,94 @@ class _OcrScreenState extends ConsumerState<OcrScreen> {
           children: [
             // Camera/Image view - upper side
             Expanded(
-              flex: 3,
+              flex: 4,
               child: ocrState.isProcessing || pdfState.isGenerating
                   ? const Center(child: CircularProgressIndicator())
                   : _buildCameraView(context, ocrState, ocrNotifier),
             ),
         
             // Three text fields - down side
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Invoice Details',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+            Expanded(
+              flex: 2,
+              child: Container(
+                height: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, -2),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _invoiceController,
-                    decoration: InputDecoration(
-                      labelText: 'Invoice No.',
-                      prefixIcon: const Icon(Icons.receipt_long),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  ],
+                ),
+                child: ListView(
+                  children: [
+                    const Text(
+                      'Invoice Details',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                       ),
-                      filled: true,
-                      fillColor: Colors.grey.shade50,
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: _totalController,
-                    decoration: InputDecoration(
-                      labelText: 'Total',
-                      prefixIcon: const Icon(Icons.attach_money),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _invoiceController,
+                      decoration: InputDecoration(
+                        labelText: 'Invoice No.',
+                        prefixIcon: const Icon(Icons.receipt_long),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
                       ),
-                      filled: true,
-                      fillColor: Colors.grey.shade50,
                     ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: _dateController,
-                    decoration: InputDecoration(
-                      labelText: 'Date',
-                      prefixIcon: const Icon(Icons.calendar_today),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _totalController,
+                      decoration: InputDecoration(
+                        labelText: 'Total',
+                        prefixIcon: const Icon(Icons.attach_money),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
                       ),
-                      filled: true,
-                      fillColor: Colors.grey.shade50,
+                      keyboardType: TextInputType.number,
                     ),
-                    readOnly: true,
-                    onTap: () async {
-                      final date = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                      );
-                      if (date != null) {
-                        _dateController.text =
-                        '${date.day}/${date.month}/${date.year}';
-                      }
-                    },
-                  ),
-                ],
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _dateController,
+                      decoration: InputDecoration(
+                        labelText: 'Date',
+                        prefixIcon: const Icon(Icons.calendar_today),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey.shade50,
+                      ),
+                      readOnly: true,
+                      onTap: () async {
+                        final date = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
+                        if (date != null) {
+                          _dateController.text =
+                          '${date.day}/${date.month}/${date.year}';
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton(onPressed: (){}, child: const Text("Submit"))
+                  ],
+                ),
               ),
             ),
           ],
