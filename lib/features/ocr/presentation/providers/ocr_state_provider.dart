@@ -161,6 +161,17 @@ class OcrNotifier extends StateNotifier<OcrState> {
   void reset() {
     state = const OcrState();
   }
+
+  void clearImage() {
+    state = OcrState(
+      image: null,
+      textBlocks: [],
+      isProcessing: false,
+      errorMessage: null,
+      scale: 1.0,
+      recognitionScript: state.recognitionScript,
+    );
+  }
 }
 
 final ocrNotifierProvider =
