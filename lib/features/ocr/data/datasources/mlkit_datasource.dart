@@ -54,6 +54,7 @@ class MlKitDataSource {
       final inputImage = InputImage.fromFile(imageFile);
       final RecognizedText recognizedText =
           await _textRecognizer!.processImage(inputImage);
+      extractInvoiceNumber(recognizedText.text);
       return recognizedText.blocks;
     } catch (e) {
       throw Exception('Failed to recognize text: $e');
@@ -65,4 +66,22 @@ class MlKitDataSource {
     _textRecognizer?.close();
     _textRecognizer = null;
   }
+
+  ///Get Invoice
+  String? extractInvoiceNumber(String fullText) {
+    final regex = RegExp(
+      r'(Invoice\s*No\.?\s*[:\-]?\s*)(\d+)',
+      caseSensitive: false,
+    );
+
+    final match = regex.firstMatch(fullText);
+
+    print("Invoice");
+    if (match != null) {
+      print("Invoice No: ${match.group(2)}");
+      return match.group(2); // Only number
+    }
+    return null;
+  }
+
 }
