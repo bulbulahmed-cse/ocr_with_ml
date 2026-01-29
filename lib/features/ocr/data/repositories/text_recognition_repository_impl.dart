@@ -11,12 +11,10 @@ class TextRecognitionRepositoryImpl implements TextRecognitionRepository {
   TextRecognitionRepositoryImpl(this._dataSource);
 
   @override
-  Future<List<TextBlockEntity>> recognizeText(ImageEntity image) async {
+  Future<Map> recognizeText(ImageEntity image) async {
     try {
       final textBlocks = await _dataSource.recognizeText(image.file);
-      return textBlocks
-          .map((block) => TextBlockModel.fromTextBlock(block))
-          .toList();
+      return textBlocks;
     } catch (e) {
       throw Exception('Failed to recognize text: $e');
     }

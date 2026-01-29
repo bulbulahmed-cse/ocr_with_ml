@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/datasources/mlkit_datasource.dart';
@@ -12,6 +13,8 @@ import 'usecase_providers.dart';
 class OcrState {
   final ImageEntity? image;
   final List<TextBlockEntity> textBlocks;
+  final String? date;
+  final String? invoiceNo;
   final bool isProcessing;
   final double scale;
   final String? errorMessage;
@@ -23,12 +26,16 @@ class OcrState {
     this.isProcessing = false,
     this.scale = 1.0,
     this.errorMessage,
+    this.invoiceNo,
+    this.date,
     this.recognitionScript = RecognitionScript.devanagari,
   });
 
   OcrState copyWith({
     ImageEntity? image,
     List<TextBlockEntity>? textBlocks,
+    String? date,
+    String? invoiceNo,
     bool? isProcessing,
     double? scale,
     String? errorMessage,
@@ -42,6 +49,8 @@ class OcrState {
       scale: scale ?? this.scale,
       errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
       recognitionScript: recognitionScript ?? this.recognitionScript,
+      invoiceNo: invoiceNo ?? this.invoiceNo,
+      date: date ?? this.date
     );
   }
 
@@ -65,7 +74,7 @@ class OcrNotifier extends StateNotifier<OcrState> {
         super(const OcrState());
 
   /// Pick an image from the specified source
-  Future<void> pickImage(ImageSource source) async {
+  Future<void> pickImage(ImageSource source,TextEditingController invoiceNo,TextEditingController date) async {
     try {
       state = state.copyWith(isProcessing: true, clearError: true);
 
@@ -83,7 +92,7 @@ class OcrNotifier extends StateNotifier<OcrState> {
       );
 
       // Load UI image and process
-      await loadUiImageAndProcess(imageEntity);
+      await loadUiImageAndProcess(imageEntity,invoiceNo,date);
     } catch (e) {
       state = state.copyWith(
         isProcessing: false,
@@ -93,7 +102,7 @@ class OcrNotifier extends StateNotifier<OcrState> {
   }
 
   /// Load UI image and process for text recognition
-  Future<void> loadUiImageAndProcess(ImageEntity imageEntity) async {
+  Future<void> loadUiImageAndProcess(ImageEntity imageEntity,TextEditingController invoiceNo,TextEditingController date) async {
     try {
       state = state.copyWith(isProcessing: true, clearError: true);
 
@@ -118,7 +127,9 @@ class OcrNotifier extends StateNotifier<OcrState> {
 
       state = state.copyWith(
         image: updatedImage,
-        textBlocks: textBlocks,
+        textBlocks: textBlocks['text_block'],
+        invoiceNo: textBlocks['invoice_no'],
+        date: textBlocks['date'],
         isProcessing: false,
       );
 
@@ -145,17 +156,17 @@ class OcrNotifier extends StateNotifier<OcrState> {
     state = state.copyWith(clearError: true);
   }
 
-  /// Change recognition script and re-process image if available
-  Future<void> changeScript(RecognitionScript script) async {
-    if (state.recognitionScript == script) return;
-    
-    state = state.copyWith(recognitionScript: script);
-    
-    // Re-process image if available
-    if (state.hasImage) {
-      await loadUiImageAndProcess(state.image!);
-    }
-  }
+  // /// Change recognition script and re-process image if available
+  // Future<void> changeScript(RecognitionScript script) async {
+  //   if (state.recognitionScript == script) return;
+  //
+  //   state = state.copyWith(recognitionScript: script);
+  //
+  //   // Re-process image if available
+  //   if (state.hasImage) {
+  //     await loadUiImageAndProcess(state.image!);
+  //   }
+  // }
 
   /// Reset state
   void reset() {

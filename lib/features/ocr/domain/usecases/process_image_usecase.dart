@@ -8,7 +8,7 @@ class ProcessImageUseCase {
 
   ProcessImageUseCase(this._textRecognitionRepository);
 
-  Future<List<TextBlockEntity>> call(ImageEntity image) async {
+  Future<Map> call(ImageEntity image) async {
     return await _textRecognitionRepository.recognizeText(image);
   }
 }

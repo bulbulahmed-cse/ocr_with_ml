@@ -81,7 +81,9 @@ class _OcrScreenState extends ConsumerState<OcrScreen> {
 
       // Process the captured image
       await ocrNotifier.loadUiImageAndProcess(
-        ImageEntity(file: File(image.path))
+        ImageEntity(file: File(image.path)),
+        _invoiceController,
+       _dateController
       );
     } catch (e) {
       if (mounted) {
@@ -307,7 +309,7 @@ class _OcrScreenState extends ConsumerState<OcrScreen> {
                   const SizedBox(width: 12),
                   FloatingActionButton(
                     heroTag: 'gallery',
-                    onPressed: () => notifier.pickImage(ImageSource.gallery),
+                    onPressed: () => notifier.pickImage(ImageSource.gallery,_invoiceController,_dateController),
                     backgroundColor: Colors.white,
                     child: const Icon(Icons.photo_library, color: Colors.black87),
                   ),
@@ -352,7 +354,7 @@ class _OcrScreenState extends ConsumerState<OcrScreen> {
                 // Gallery button
                 FloatingActionButton(
                   heroTag: 'gallery',
-                  onPressed: () => notifier.pickImage(ImageSource.gallery),
+                  onPressed: () => notifier.pickImage(ImageSource.gallery,_invoiceController,_dateController),
                   backgroundColor: Colors.white.withOpacity(0.9),
                   child: const Icon(Icons.photo_library, color: Colors.black87),
                 ),
